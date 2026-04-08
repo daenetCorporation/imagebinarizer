@@ -20,8 +20,8 @@ namespace Daenet.ImageBinarizerTool
         {
 
             var version = Assembly.GetExecutingAssembly().GetName().Version;
-            Console.WriteLine($"\nWelcome to Image Binarizer Application [{version.Major}.{version.Minor}.{version.Build}]");
-            Console.WriteLine("Copyright <c> daenet GmbH, All rights reserved.\n");
+            Console.WriteLine($"\nWelcome to ImageBinarizer [{version.Major}.{version.Minor}.{version.Build}]");
+            Console.WriteLine("Copyright \u00a9 daenet GmbH, All rights reserved.\n");
 
             var clr = Console.ForegroundColor;
 
@@ -30,7 +30,7 @@ namespace Daenet.ImageBinarizerTool
                 LogoPrinter logo = new LogoPrinter();
                 logo.Print();
 
-                PrintMessage(" ", ConsoleColor.White, true);
+                Console.WriteLine("\nUse \"imgbin -h\" or \"imgbin --help\" for usage information.\n");
                 return;
             }
 
@@ -81,9 +81,7 @@ namespace Daenet.ImageBinarizerTool
                     Console.ForegroundColor = clr;
                     Console.Write(msg + "\n");
                     Console.ForegroundColor = ConsoleColor.White;
-                    string printedHelpArgs = string.Join(", ", CommandLineParsing.HelpArguments.Select(helpArg => $"\"{helpArg}\""));
-                    Console.WriteLine($"\nInsert one of these [{printedHelpArgs}] to following command for help:");
-                    Console.WriteLine("\n\t\timgbin [command]\n");
+                    Console.WriteLine("\nUse \"imgbin -h\" or \"imgbin --help\" for usage information.\n");
                 }
                 else
                 {

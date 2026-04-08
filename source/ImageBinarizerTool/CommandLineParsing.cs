@@ -241,42 +241,35 @@ namespace Daenet.ImageBinarizerTool
         /// </summary>
         private void PrintHelp()
         {
-            Console.WriteLine("\nHelp:");
-            Console.WriteLine("\n\t- Input image path: {\"-ip\", \"--input-image\", \"--inputImagePath\"}");
-            Console.WriteLine("\t- Output image path: {\"-op\", \"--output-image\", \"--outputImagePath\"}");
-            Console.WriteLine("\t- Image width: {\"-iw\", \"--imageWidth\"}");
-            Console.WriteLine("\t- Image height: {\"-ih\", \"--imageHeight\"}");
-            Console.WriteLine("\t- Red threshold: {\"-rt\", \"--redThreshold\"}");
-            Console.WriteLine("\t- Green threshold: {\"-gt\", \"--greenThreshold\"}");
-            Console.WriteLine("\t- Blue threshold: {\"-bt\", \"--blueThreshold\"}");
-            Console.WriteLine("\t- Grey threshold: {\"-grt\", \"--greyThreshold\"}");
-            Console.WriteLine("\t- Inverse enable: {\"-inv\", \"--inverse\"}");
-            Console.WriteLine("\t- Grey scale enable: {\"-gs\", \"--greyscale\"}");
-            Console.WriteLine("\t- Create code enable: {\"-cc\", \"--createcode\", \"--create-code\"}");
-            Console.WriteLine("\t- Get contour: {\"-gc\", \"--getcontour\"}");
-            Console.WriteLine("\nInput path and output path are required arguments, where as others can be set automatically if not specified.");
-            Console.WriteLine("\nAdding \"-inv\" to indicate the option of inversing the contrast of the binarized picture.");
-            Console.WriteLine("\nAdding \"-gs\" to indicate the option of calculating threshold base on grey scale. Using \"-grt\" or " +
-                                    "\"--greyThreshold\" along with this to set threshold for grey scale binarizer.");
-            Console.WriteLine("\nAdding \"-cc\" to indicate the option of creating code file for printing Logo to console.");
-            Console.WriteLine("\nOthers values need to be larger than 0. If needed, use: \n\t-1 to assign threshold default value. " +
-                                                                                        "\n\t 0 to assign width and height default value.");
-            Console.WriteLine("\n- Example:");
-            Console.WriteLine("\t+ Binarize with default arguments: \n\t\timgbin --input-image c:\\a.png --output-image d:\\out.txt");
-            Console.WriteLine("\t+ With automatic RGB: \n\t\timgbin --input-image c:\\a.png --output-image d:\\out.txt -width 32 -height 32");
-            Console.WriteLine("\n\t+ Only Height need to be specify: \n\t\timgbin --input-image c:\\a.png --output-image d:\\out.txt -ih 32");
-            Console.WriteLine("\n\t+ Passing all arguments without inversing the contrast: " +
-                                "\n\t\timgbin --input-image c:\\a.png --output-image d:\\out.txt -iw 32 -ih 32 \n\t\t-rt 100 -gt 100 -bt 100");
-            Console.WriteLine("\n\t+ Passing all arguments with inversion: " +
-                           "\n\t\timgbin --input-image c:\\a.png --output-image d:\\out.txt -iw 32 -ih 32 \n\t\t-rt 100 -gt 100 -bt 100 -inv");
-            Console.WriteLine("\n\t+ Get contour with inversion: \n\t\timgbin --input-image c:\\a.png --output-image d:\\out.txt -inv -gc");
-            Console.WriteLine("\n\t+ Passing all arguments with get contour: " +
-                           "\n\t\timgbin --input-image c:\\a.png --output-image d:\\out.txt -iw 32 -ih 32 \n\t\t-rt 100 -gt 100 -bt 100 -gc");
-            Console.WriteLine("\n\t+ Passing all arguments with grey scale calculation: " +
-                          "\n\t\timgbin --input-image c:\\a.png --output-image d:\\out.txt -iw 32 -ih 32 \n\t\t-grt 100 -gs");
-            Console.WriteLine("\t+ Create code file with default width of 70: \n\t\timgbin --input-image c:\\a.png --create-code");
-            Console.WriteLine("\t+ Create code file with custom width or height: \n\t\timgbin --input-image c:\\a.png -iw 150 --create-code" +
-                                "\n\t   or \n\t\timgbin --input-image c:\\a.png -ih 150 --create-code");
+            var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            Console.WriteLine($"\nImageBinarizer [{version.Major}.{version.Minor}.{version.Build}] - .NET Global Tool for image binarization.");
+            Console.WriteLine("Copyright \u00a9 daenet GmbH, All rights reserved.\n");
+
+            Console.WriteLine("Usage: imgbin [options]\n");
+            Console.WriteLine("Options:");
+            Console.WriteLine("  -ip,  --input-image       Input image file path (required)          [string]");
+            Console.WriteLine("  -op,  --output-image      Output file path                          [string]");
+            Console.WriteLine("  -iw,  --imageWidth        Custom output width (0 = original)        [int, default: 0]");
+            Console.WriteLine("  -ih,  --imageHeight       Custom output height (0 = original)       [int, default: 0]");
+            Console.WriteLine("  -rt,  --redThreshold      Red channel threshold (-1 = auto)         [int, 0-255, default: -1]");
+            Console.WriteLine("  -gt,  --greenThreshold    Green channel threshold (-1 = auto)       [int, 0-255, default: -1]");
+            Console.WriteLine("  -bt,  --blueThreshold     Blue channel threshold (-1 = auto)        [int, 0-255, default: -1]");
+            Console.WriteLine("  -grt, --greyThreshold     Grey scale threshold (-1 = auto)          [int, 0-255, default: -1]");
+            Console.WriteLine("  -inv, --inverse           Inverse binarized image contrast           [flag]");
+            Console.WriteLine("  -gs,  --greyscale         Use grey scale threshold mode              [flag]");
+            Console.WriteLine("  -cc,  --create-code       Generate .cs code file for logo printing   [flag]");
+            Console.WriteLine("  -gc,  --getcontour        Extract contour from image                 [flag]");
+            Console.WriteLine("  -h,   --help              Show this help message                     [flag]");
+
+            Console.WriteLine("\nExamples:");
+            Console.WriteLine("  imgbin --input-image c:\\a.png --output-image d:\\out.txt");
+            Console.WriteLine("  imgbin --input-image c:\\a.png --output-image d:\\out.txt -iw 32 -ih 32");
+            Console.WriteLine("  imgbin --input-image c:\\a.png --output-image d:\\out.txt -rt 100 -gt 100 -bt 100");
+            Console.WriteLine("  imgbin --input-image c:\\a.png --output-image d:\\out.txt -inv");
+            Console.WriteLine("  imgbin --input-image c:\\a.png --output-image d:\\out.txt -iw 32 -ih 32 -grt 100 -gs");
+            Console.WriteLine("  imgbin --input-image c:\\a.png --output-image d:\\out.txt -inv -gc");
+            Console.WriteLine("  imgbin --input-image c:\\a.png --create-code");
+            Console.WriteLine("  imgbin --input-image c:\\a.png -iw 150 --create-code");
         }
         #endregion
     }
